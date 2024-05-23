@@ -21,6 +21,7 @@ import { Input } from '@/components/ui/input';
 import CustomInput from './CustomInput';
 import { authFormSchema } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
+import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions';
 
 const AuthForm = ({ type }: { type: string }) => {
   const [user, setUser] = useState(null);
@@ -90,7 +91,7 @@ const AuthForm = ({ type }: { type: string }) => {
             alt="Horizon logo"
           />
           <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">
-            Horizon
+            CashTrack
           </h1>
         </Link>
         <div className="flex flex-col gap-1 md:gap-3">
@@ -187,7 +188,7 @@ const AuthForm = ({ type }: { type: string }) => {
                 <Button type="submit" disabled={isLoading} className="form-btn">
                   {isLoading ? (
                     <>
-                      <Loader2 size={20} className="animate-spin" /> &nbsp;
+                      {/* <Loader2 size={20} className="animate-spin" /> &nbsp; */}
                       Loading...
                     </>
                   ) : type === 'sign-in' ? (
