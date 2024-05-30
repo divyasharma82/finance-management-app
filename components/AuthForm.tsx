@@ -20,13 +20,15 @@ import {
 import { Input } from '@/components/ui/input';
 import CustomInput from './CustomInput';
 import { authFormSchema } from '@/lib/utils';
+import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions';
+import PlaidLink from './PlaidLink';
 
 const AuthForm = ({ type }: { type: string }) => {
+  const router = useRouter();
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
   const formSchema = authFormSchema(type);
 
@@ -91,9 +93,10 @@ const AuthForm = ({ type }: { type: string }) => {
             alt="Horizon logo"
           />
           <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">
-            CashTrack
+            Horizon
           </h1>
         </Link>
+
         <div className="flex flex-col gap-1 md:gap-3">
           <h1 className="text-24 lg:text-36 font-semibold text-gray-900">
             {user ? 'Link Account' : type === 'sign-in' ? 'Sign In' : 'Sign Up'}
@@ -106,7 +109,9 @@ const AuthForm = ({ type }: { type: string }) => {
         </div>
       </header>
       {user ? (
-        <div className="flex flex-col gap-4"></div>
+        <div className="flex flex-col gap-4">
+          <PlaidLink user={user} variant="primary" />
+        </div>
       ) : (
         <>
           <Form {...form}>
@@ -188,7 +193,7 @@ const AuthForm = ({ type }: { type: string }) => {
                 <Button type="submit" disabled={isLoading} className="form-btn">
                   {isLoading ? (
                     <>
-                      {/* <Loader2 size={20} className="animate-spin" /> &nbsp; */}
+                      <Loader2 size={20} className="animate-spin" /> &nbsp;
                       Loading...
                     </>
                   ) : type === 'sign-in' ? (
