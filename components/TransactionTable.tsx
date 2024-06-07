@@ -9,13 +9,26 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import {
+  cn,
   formatAmount,
   formatDateTime,
   getTransactionStatus,
   removeSpecialCharacters,
 } from '@/lib/utils';
+import { transactionCategoryStyles } from '@/constants';
 
-
+const CategoryBadge = ({ category }: CategoryBadgeProps) => {
+  const { borderColor, backgroundColor, textColor, chipBackgroundColor } =
+    transactionCategoryStyles[
+      category as keyof typeof transactionCategoryStyles
+    ] || transactionCategoryStyles.default;
+  return (
+    <div className={cn('category-badge', borderColor, chipBackgroundColor)}>
+      <div className={cn('size-2 rounded-full', backgroundColor, textColor  )} />
+      <p className={cn('text-[12px] font-medium')}>{category}</p>
+    </div>
+  );
+};
 
 const TransactionTable = ({ transactions }: TransactionTableProps) => {
   return (
@@ -59,14 +72,20 @@ const TransactionTable = ({ transactions }: TransactionTableProps) => {
               >
                 {isDebit ? `-${amount}` : isCredit ? amount : amount}
               </TableCell>
-              <TableCell className="pl-2 pr-10">{status}</TableCell>
+              <TableCell className="pl-2 pr-10">
+                <CategoryBadge category={status} />
+                {status}
+              </TableCell>
               <TableCell className="pl-2 pr-10 min-w-32">
                 {formatDateTime(new Date(t.date)).dateTime}
               </TableCell>
               <TableCell className="pl-2 pr-10 capitalize min-w-[24]">
                 {t.paymentChannel}
               </TableCell>
-              <TableCell className="pl-2 pr-10">{t.category}</TableCell>
+              <TableCell className="pl-2 pr-10">
+                <CategoryBadge category={t.category} />
+                {t.category}
+              </TableCell>
             </TableRow>
           );
         })}
